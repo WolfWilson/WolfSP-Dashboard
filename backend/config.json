@@ -1,0 +1,22 @@
+[
+  {
+    "displayName": "Informe de Altas Diarias",
+    "internalID": "informe_altas",
+    "storedProcedure": "Will_ObtenerDatosParaInforme2024V3",
+    "params": [
+      { "name": "fechaInicio", "type": "date", "label": "Fecha Inicial" },
+      { "name": "fechaFin", "type": "date", "label": "Fecha Final" }
+    ]
+  },
+  {
+    "displayName": "Informe de Operadores",
+    "internalID": "informe_operadores",
+    "storedProcedure": "Will_ObtenerMovimientos_por_operador",
+    "params": [
+      { "name": "fechaInicio", "type": "date", "label": "Fecha Inicial" },
+      { "name": "fechaFin", "type": "date", "label": "Fecha Final" },
+      { "name": "codigoOperador", "type": "select", "label": "Operador", "dataSource": "getOperatorsList" },
+      { "name": "letra", "type": "select", "label": "Letra", "options": ["Todas", "E", "K", "V"] }
+    ]
+  }
+]
