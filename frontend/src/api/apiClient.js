@@ -40,8 +40,15 @@ apiClient.interceptors.response.use(
 // Authentication API
 export const authAPI = {
   login: async (username, password) => {
-    const response = await apiClient.post('/api/auth/login', { username, password });
-    return response.data;
+    console.log('Intentando login con:', { username, password });
+    try {
+      const response = await apiClient.post('/api/auth/login', { username, password });
+      console.log('Respuesta de login:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error en login:', error.response ? error.response.data : error.message);
+      throw error;
+    }
   },
   getUserProfile: async () => {
     const response = await apiClient.get('/api/auth/me');

@@ -109,3 +109,47 @@ class DatabaseManager:
             operators.append({"value": code, "label": f"{code} - {name}"})
         
         return operators
+            
+            sql_command = f"EXEC {stored_proc_name} {', '.join(param_placeholders)}"
+            
+            # Execute the stored procedure and return results as DataFrame
+            df = pd.read_sql(sql_command, connection, params=sql_params)
+            return df, None
+            
+        except Exception as e:
+            error_message = f"Error executing stored procedure {stored_proc_name}: {str(e)}"
+            logger.error(error_message)
+            return pd.DataFrame(), error_message
+        finally:
+            if connection:
+                connection.close()
+                
+    @staticmethod
+    def get_operators_list() -> List[Dict[str, Any]]:
+        """
+        Fetch the list of operators from the database.
+        This is an example of a method to get data for a select dropdown.
+        
+        Returns:
+            List of dictionaries with operator information
+        """
+        connection = None
+        try:
+            connection = DatabaseManager.get_connection()
+            
+            # Example query - modify as needed to match your database schema
+            query = """
+            SELECT OperatorID as value, OperatorName as label
+            FROM Operators
+            ORDER BY OperatorName
+            """
+            
+            df = pd.read_sql(query, connection)
+            return df.to_dict('records')
+            
+        except Exception as e:
+            logger.error(f"Error fetching operators list: {e}")
+            return []
+        finally:
+            if connection:
+                connection.close()

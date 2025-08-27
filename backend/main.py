@@ -4,6 +4,10 @@ from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+# Aplicar el parche para bcrypt antes de importar otros módulos
+from security.patches import patch_passlib_bcrypt
+patch_passlib_bcrypt()
+
 from api import auth, reports
 from core.config import get_settings
 
@@ -25,7 +29,7 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.FRONTEND_URL],
+    allow_origins=["*"],  # En desarrollo, permitimos cualquier origen
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
